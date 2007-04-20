@@ -1,0 +1,25 @@
+<!DOCTYPE dwr PUBLIC
+        "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN"
+        "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+    <allow>
+
+        <convert converter="bean" match="com.cfinkel.reports.ajax.beans.InputValidationReply"/>
+        <convert converter="bean" match="com.cfinkel.reports.ajax.beans.InputMarkup"/>
+
+        <create creator="new" javascript="InputChangeHandler">
+            <param name="class" value="com.cfinkel.reports.ajax.methods.InputChangeHandler"/>
+        </create>
+
+        <create creator="new" javascript="InputValidator">
+            <param name="class" value="com.cfinkel.reports.ajax.methods.InputValidator"/>
+        </create>
+
+    </allow>
+
+    <signatures>
+
+    </signatures>
+
+</dwr>

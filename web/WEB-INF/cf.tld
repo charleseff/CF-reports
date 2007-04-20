@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.2</jsp-version>
+    <short-name>vlh</short-name>
+    <uri>http://www.cfinkel.com/tags-report</uri>
+    <display-name>CF Tags</display-name>
+    <description>CF Tags</description>
+
+    <tag>
+        <name>row</name>
+        <tag-class>com.cfinkel.reports.valuelist.CFRowTag</tag-class>
+        <tei-class>net.mlw.vlh.web.tag.DefaultRowTei</tei-class>
+
+        <body-content>JSP</body-content>
+        <description>
+            This is an iterate tag.  This tage takes the ValueList and iterates the
+            elements in the ValueList.list property.
+        </description>
+
+        <attribute>
+            <name>bean</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>
+                <![CDATA[
+      <p>  The name of the pageContext key to place the current iteration on. </p>
+	  <h4>Example</h4>
+	  Considere that we have an class Player with method getId.
+	  <p>
+	  <code>
+	     &lt;vlh:row bean="player"&gt;
+			  <ul>	Using EL language we shows the player id ${player.id}.	  </ul>
+		   &lt;/vlh:row&gt;
+      </code>	
+	  </p>
+	  
+	  ]]>
+            </description>
+        </attribute>
+
+        <attribute>
+            <name>display</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>
+                <![CDATA[
+		<p>
+        Specify the name of an display adapter (defined in configuration  bean) to use, <b>default is html</b>.
+		</p>
+		<h4>Example</h4>
+		<h5>JSP</h5>
+		<code&lt;vlh:row <b>display="html"</b> bean="player"gt;</code>		
+		<h5>Configuration bean</h5>
+		<p>
+<code>		
+&lt;bean id="classicLook" singleton="true" class="net.mlw.vlh.web.ValueListConfigBean"&gt;
+<ul> Ommited content.
+    &lt;property name="displayProviders"&gt;
+	  <ul>
+      &lt;map&gt;
+	  <ul>
+        &lt;entry key="<b>html</b>"&gt;
+		<ul>
+          &lt;bean id="classicLookHtmlDisplayProvider" class="net.mlw.vlh.web.tag.support.HtmlDisplayProvider"&gt;
+		    <ul>
+            &lt;property name="imageHome"&gt;&lt;value&gt;images&lt;/value&gt;&lt;/property&gt;
+			</ul>
+          &lt;/bean&gt;
+		</ul>
+        &lt;/entry&gt;<br>
+        &lt;entry key="<b>csv</b>"&gt;&lt;ref bean="csvDisplayProvider" /&gt;&lt;/entry&gt;<br>
+        &lt;entry key="<b>excel</b>"&gt;&lt;ref bean="excelDisplayProvider" /&gt;&lt;/entry&gt;<br>
+		</ul>
+      &lt;/map&gt;
+	  </ul>	  
+    &lt;/property&gt;
+</ul>	
+&lt;/bean&gt;
+<br>
+&lt;bean id="csvDisplayProvider"   class="net.mlw.vlh.web.tag.support.CsvDisplayProvider"/&gt;<br>
+&lt;bean id="excelDisplayProvider" class="net.mlw.vlh.web.tag.support.ExcelDisplayProvider"/&gt; 
+</code>		</p>
+		]]>
+            </description>
+        </attribute>
+
+        <attribute>
+            <name>disableHeader</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>boolean</type>
+            <description> <![CDATA[ <p>Disable rendering of header. Default is false. But when
+			there are not specified column's titles, it will skip rendering 
+			anyway. </p> 
+			<h5>Usage</h5>
+			<li>true</li> Skip zero (header) row  of the table.
+			<li><b>false</b><li> Default setting. Automatic detection of rendering header.
+			(Check if at least one column has a title, if yes, render header row,  if no, skip it.)
+			 ]]></description>
+        </attribute>
+
+    </tag>
+
+    <tag>
+        <name>paging</name>
+        <tag-class>com.cfinkel.reports.valuelist.CFPagingTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>
+            <![CDATA[
+          Generate panel for controlling of paging and focusing. For best understanding  see war file with examples.
+          When bodyContent is  empty,it will render pages like with bodyContent &lt;c:out value="${page}"/&gt;.
+          <ol>
+              <li>
+                  <code>&lt;vlh:paging showSummary="true" pages="3" &lt;/vlh:paging&gt;</code>
+                  <ul>
+                      This will generate somethink like this 1 <b>2</b> 3
+                  </ul>
+              </li>
+              <li>
+                  <code>&lt;vlh:paging showSummary="true" pages="3"&gt;&lt;c:out value="${page}"/&gt;&lt;/vlh:paging&gt;</code>
+                  <ul>
+                      The same usage but with non empty body content using pageContext's variable <b>page</b>.
+                      If you are using more than 1 table, the name of the page variable is different. At that case it's like this: page<b>MyTable</b>, where MyTable is  <i>vlh:Root's id</i>.
+                  </ul>
+              </li>
+          </ol>
+          ]]>
+        </description>
+
+        <attribute>
+            <name>pages</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>int</type>
+            <description>
+                <![CDATA[
+          Specify number of pages rendered as quick navigation.
+          <b>Note</b> You must specify somethink in the inner tag's body content, otherwise will not generete quick paging.
+          ]]>
+            </description>
+        </attribute>
+
+        <attribute>
+            <name>showSummary</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>
+                <![CDATA[
+      Generate buttons to navigate through pages of data  using i18n (internationalization).
+     The following keys are required to be define in message sources.
+
+     <p> If you like to, you can add your properties file in your locale and add this lines of code in your language:
+     </p>
+     Summary info:(is on the left)
+      <ol>
+      <code>
+         <li>paging.text.totalRow={0} Total  </li>
+         <li>paging.text.pageFromTotal= <b>{0}</b> of  {1} page(s) </li>
+      </code>
+      </ol>
+     Paging info: (is on the right)
+     <code>
+      <ol>
+        <li>
+          paging.first(off), paging.first(on)
+        </li>
+        <li>
+          paging.previous(off), paging.previous(on)
+        </li>
+        <li>
+          paging.forward(off), paging.forward(on)
+        </li>
+        <li>
+          paging.last(off), paging.last(on)
+        </li>
+        <li>
+          paging.delim
+        </li>
+           <li>
+             paging.text.totalRow
+           </li>
+           <li>
+          paging.text.pageFromTotal
+        </li>
+     </ol>
+     </code>
+     Focus info:
+     <code>
+     <ol>
+        <li>
+            paging.focus(on), paging.focus(off), paging.focus(disabled),
+           paging.focus(error)
+        </li>
+     </ol>
+     </code>
+           ]]>
+            </description>
+        </attribute>
+
+        <attribute>
+            <name>attributes</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                <![CDATA[
+       <p>
+          Allow you to specify html tag attributes "inline"-without writing additinal vlh's tags.
+       </p>
+       <h4>
+          Example
+       </h4>
+       <p>
+          &lt;vlh:column title="lastname"   property="lastname"   sortable="desc" attributes="width='150'"/&gt;
+       </p>
+       ]]>
+            </description>
+        </attribute>
+    </tag>
+
+
+</taglib>

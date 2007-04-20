@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.cfinkel.com/report"
+            xmlns:report="http://www.cfinkel.com/report"
+            xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+            jxb:version="2.0">
+
+    <!-- jxb bindings -->
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jxb:schemaBindings>
+                <jxb:nameXmlTransform>
+                    <jxb:elementName suffix="Element"/>
+                </jxb:nameXmlTransform>
+            </jxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+    <!-- definition of simple elements -->
+    <xsd:element name="input-ref" type="xsd:string"/>
+    <xsd:element name="sql" type="xsd:string"/>
+    <xsd:element name="query-ref" type="xsd:string"/>
+    <xsd:element name="role" type="xsd:string"/>
+    <xsd:element name="backlink" type="xsd:string"/>
+    <xsd:element name="group" type="xsd:string"/>
+    <xsd:element name="total" type="xsd:string"/>
+
+
+    <!-- types: -->
+    <xsd:simpleType name="chart">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="table"/>
+            <xsd:enumeration value="bar"/>
+            <xsd:enumeration value="pie"/>
+            <xsd:enumeration value="xy"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="control">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="radio"/>
+            <xsd:enumeration value="dropdown"/>
+            <xsd:enumeration value="text"/>
+            <xsd:enumeration value="listbox"/>
+            <xsd:enumeration value="checkbox"/>
+            <xsd:enumeration value="textarea"/>
+            <xsd:enumeration value="date"/>
+            <xsd:enumeration value="datetime"/>
+            <xsd:enumeration value="time"/>
+            <xsd:enumeration value="hidden"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="datatype">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="string"/>
+            <xsd:enumeration value="integer"/>
+            <xsd:enumeration value="float"/>
+            <xsd:enumeration value="date"/>
+            <xsd:enumeration value="datetime"/>
+            <xsd:enumeration value="time"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="IntList">
+        <xsd:list itemType="xsd:int"></xsd:list>
+    </xsd:simpleType>
+
+    <!-- definition of complex types -->
+    <xsd:complexType name="abstract-query" abstract="true">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jxb:class name="QueryElement">
+                </jxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:attribute name="name" use="required"/>
+        <xsd:attribute name="datasource" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="abstract-input" abstract="true">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jxb:class name="InputElement">
+                </jxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:element ref="report:dependent-input" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" use="required"/>
+    </xsd:complexType>
+
+    <!-- definition of complex elements -->
+
+    <!-- base query: -->
+    <xsd:element name="query">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jxb:class name="PreparedQueryElement">
+                </jxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="report:abstract-query">
+                    <xsd:sequence>
+                        <xsd:element ref="report:input-ref" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element ref="report:sql" minOccurs="1" maxOccurs="1"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="generated-query">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="report:abstract-query">
+                    <xsd:attribute name="class" use="required"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="when">
+        <xsd:complexType>
+            <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                <xsd:element ref="report:control" maxOccurs="1" minOccurs="0"/>
+                <xsd:choice>
+                    <xsd:element ref="report:query"/>
+                    <xsd:element ref="report:generated-query"/>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="parent-value" use="required"/>
+            <xsd:attribute name="description" use="required"/>
+            <xsd:attribute name="datatype" type="report:datatype" use="required"/>
+            <xsd:attribute name="control" type="report:control" use="required"/>
+            <xsd:attribute name="values"/>
+            <xsd:attribute name="default"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="dependent-input">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="report:abstract-input">
+                    <xsd:sequence minOccurs="1">
+                        <xsd:element ref="report:when" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!-- base input -->
+    <xsd:element name="input">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jxb:class name="BaseInputElement">
+                </jxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="report:abstract-input">
+                    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element ref="report:control" minOccurs="0" maxOccurs="1"/>
+                        <xsd:choice minOccurs="0">
+                            <xsd:element ref="report:query"/>
+                            <xsd:element ref="report:generated-query"/>
+                        </xsd:choice>
+                    </xsd:sequence>
+                    <xsd:attribute name="description" use="required"/>
+                    <xsd:attribute name="datatype" type="report:datatype" use="required"/>
+                    <xsd:attribute name="control" type="report:control" use="required"/>
+                    <xsd:attribute name="values"/>
+                    <xsd:attribute name="default"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+
+    <xsd:element name="control">
+        <xsd:complexType>
+            <xsd:choice maxOccurs="1">
+                <xsd:element ref="report:listbox" maxOccurs="1"/>
+                <xsd:element ref="report:radio" maxOccurs="1"/>
+                <xsd:element ref="report:textarea" maxOccurs="1"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="radio">
+        <xsd:complexType>
+            <xsd:attribute name="horizontal" type="xsd:boolean" use="optional" default="false"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="listbox">
+        <xsd:complexType>
+            <!-- todo: allow for 'full', or show ALL rows -->
+            <xsd:attribute name="rows" type="xsd:int" use="optional"/>
+            <xsd:attribute name="multi" type="xsd:boolean" use="optional" default="false"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="textarea">
+        <xsd:complexType>
+            <xsd:attribute name="rows" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="drill-down">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="report:input-param" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <!-- can be a number (column #), or a string (column name)-->
+            <xsd:attribute name="column" type="xsd:string"/>
+            <xsd:attribute name="report" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="input-param">
+        <xsd:complexType>
+            <xsd:attribute name="column" type="xsd:string"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="output">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="report:format" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="report:total" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="report:drill-down" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="report:group" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:choice>
+                    <xsd:element ref="report:query"/>
+                    <xsd:element ref="report:generated-query"/>
+                    <xsd:element ref="report:query-ref"/>
+                </xsd:choice>
+                <xsd:element ref="report:chart" minOccurs="0" maxOccurs="1"/>
+                <xsd:element ref="report:text" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="post-process-class" use="optional"/>
+            <xsd:attribute name="name" use="required"/>
+            <xsd:attribute name="hideName" type="xsd:boolean" default="false"/>
+            <xsd:attribute name="rowsPerPage" type="xsd:int" default="20"/>
+            <xsd:attribute name="maxRowsForDisplayTag" type="xsd:int" default="-1"/>
+            <xsd:attribute name="maxRowsForCache" type="xsd:int" default="-1"/>
+            <xsd:attribute name="valueList" type="xsd:boolean" default="false"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="text" type="xsd:string"/>
+
+    <xsd:element name="format">
+        <xsd:complexType>
+            <xsd:attribute name="column" type="xsd:string" use="required"/>
+            <xsd:attribute name="value" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+
+    <xsd:element name="chart">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="width" use="optional" type="xsd:integer" default="500"/>
+            <xsd:attribute name="height" use="optional" type="xsd:integer" default="300"/>
+            <xsd:attribute name="type" use="optional" type="report:chart" default="table"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="access">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="report:role" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="report">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="report:access" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="report:query" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="report:input" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="report:output" minOccurs="1" maxOccurs="unbounded"/>
+                <xsd:element ref="report:backlink" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="title" use="required"/>
+            <xsd:attribute name="description" use="required"/>
+            <xsd:attribute name="author"/>
+            <xsd:attribute name="revision"/>
+            <xsd:attribute name="hideLogin" type="xsd:boolean" default="false"/>
+            <xsd:attribute name="hideInputs" type="xsd:boolean" default="false"/>
+            <xsd:attribute name="hideLinkToReport" type="xsd:boolean" default="false"/>
+            <xsd:attribute name="verticalInputs" type="xsd:boolean" default="false"/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

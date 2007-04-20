@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <bean id="valueListHandler" singleton="true"
+          class="com.cfinkel.reports.valuelist.CFValueListHandlerImpl">
+    </bean>
+
+
+    <bean id="resourceI18nBundle" class="org.springframework.context.support.ResourceBundleMessageSource">
+      <property name="basename"><value>i18n</value></property>
+    </bean>
+
+
+    <bean id="cfReportLook" singleton="true" class="net.mlw.vlh.web.ValueListConfigBean">
+        <property name="displayHelper"><bean class="net.mlw.vlh.web.util.PassThroughDisplayHelper" /></property>
+        <property name="linkEncoder"><bean class="net.mlw.vlh.web.tag.support.DefaultLinkEncoder" /></property>
+
+        <property name="messageSource">
+            <bean class="org.springframework.context.support.ResourceBundleMessageSource">
+                <property name="basename"><value>cfReportLook</value></property>
+                <property name="parentMessageSource"><ref bean="resourceI18nBundle" /></property>
+            </bean>
+        </property>
+        <property name="styleCount"><value>2</value></property>
+        <property name="imageRoot"><value>/images/valuelist/</value></property>
+        <property name="stylePrefix"><value>classicLook</value></property>
+
+        <property name="displayProviders">
+            <map>
+                <entry key="html">
+                    <bean id="classicLookHtmlDisplayProvider" class="net.mlw.vlh.web.tag.support.HtmlDisplayProvider">
+                        <property name="imageHome"><value>/images/valuelist/</value></property>
+                        <property name="preAppendContextPath"><value>true</value></property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

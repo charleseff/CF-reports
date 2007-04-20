@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="binding.xsd">
+    <!-- queries: -->
+    <mapping class="com.cfinkel.reports.generatedbeans.QueryElement" abstract="true">
+        <value name="datasource" field="datasource"/>
+        <value name="name" field="name"/>
+    </mapping>
+
+    <mapping class="com.cfinkel.reports.generatedbeans.PreparedQueryElement" name="query"
+             extends="com.cfinkel.reports.generatedbeans.QueryElement">
+        <structure map-as="com.cfinkel.reports.generatedbeans.QueryElement"/>
+        <value name="sql" field="sql"/>
+        <collection field="inputRef"
+                    create-type="java.util.ArrayList">
+            <value name="input-ref" type="java.lang.String"/>
+        </collection>
+    </mapping>
+
+    <mapping class="com.cfinkel.reports.generatedbeans.GeneratedQueryElement" name="generated-query"
+             extends="com.cfinkel.reports.generatedbeans.QueryElement">
+        <structure map-as="com.cfinkel.reports.generatedbeans.QueryElement"/>
+        <value name="class" field="clazz"/>
+    </mapping>
+
+    <!--
+    <xsd:complexType name="abstract-input" abstract="true">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jxb:class name="InputElement">
+                </jxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:element ref="report:dependent-input" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" use="required"/>
+    </xsd:complexType>
+-->
+    <mapping class="com.cfinkel.reports.generatedbeans.InputElement" abstract="true">
+        <collection field="dependentInput" create-type="java.util.ArrayList"
+                    item-type="com.cfinkel.reports.generatedbeans.DependentInputElement" usage="optional"/>
+        <value style="attribute" name="name" field="name" usage="required"/>
+    </mapping>
+
+    <!--
+    <xsd:element name="dependent-input">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="report:abstract-input">
+                    <xsd:sequence minOccurs="1">
+                        <xsd:element ref="report:when" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    -->
+    <mapping class="com.cfinkel.reports.generatedbeans.DependentInputElement" name="dependent-input"
+             extends="com.cfinkel.reports.generatedbeans.InputElement">
+        <structure map-as="com.cfinkel.reports.generatedbeans.InputElement"/>
+        <collection field="when" create-type="java.util.ArrayList"
+                    item-type="com.cfinkel.reports.generatedbeans.WhenElement"/>
+    </mapping>
+
+    <!--
+    <xsd:element name="when">
+        <xsd:complexType>
+            <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                <xsd:element ref="report:control" maxOccurs="1" minOccurs="0"/>
+                <xsd:choice>
+                    <xsd:element ref="report:query"/>
+                    <xsd:element ref="report:generated-query"/>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="parent-value" use="required"/>
+            <xsd:attribute name="description" use="required"/>
+            <xsd:attribute name="datatype" type="report:datatype" use="required"/>
+            <xsd:attribute name="control" type="report:control" use="required"/>
+            <xsd:attribute name="values"/>
+            <xsd:attribute name="default"/>
+        </xsd:complexType>
+    </xsd:element>
+-->
+    <mapping class="com.cfinkel.reports.generatedbeans.WhenElement" name="when">
+        <value style="attribute" name="default" field="_default" usage="optional"/>
+        <value style="attribute" name="parent-value" field="parentValue" usage="required"/>
+        <value style="attribute" name="description" field="description" usage="required"/>
+        <!--       <value style="attribute" name="datatype" field="datatype" usage="required"/>
+   <value style="attribute" name="control" field="control" usage="required"/> -->
+        <value style="attribute" name="values" field="values" usage="optional"/>
+    </mapping>
+
+    <!--
+        <xsd:element name="input">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jxb:class name="BaseInputElement">
+                </jxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="report:abstract-input">
+                    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element ref="report:control" minOccurs="0" maxOccurs="1"/>
+                        <xsd:choice minOccurs="0">
+                            <xsd:element ref="report:query"/>
+                            <xsd:element ref="report:generated-query"/>
+                        </xsd:choice>
+                    </xsd:sequence>
+                    <xsd:attribute name="description" use="required"/>
+                    <xsd:attribute name="datatype" type="report:datatype" use="required"/>
+                    <xsd:attribute name="control" type="report:control" use="required"/>
+                    <xsd:attribute name="values"/>
+                    <xsd:attribute name="default"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    -->
+<!--
+    <mapping class="com.cfinkel.reports.generatedbeans.BaseInputElement" name="input"
+             extends="com.cfinkel.reports.generatedbeans.InputElement">
+        <structure map-as="com.cfinkel.reports.generatedbeans.InputElement"/>
+        <collection field="when" create-type="java.util.ArrayList"
+                    item-type="com.cfinkel.reports.generatedbeans.WhenElement"/>
+    </mapping>
+-->
+
+
+
+</binding>

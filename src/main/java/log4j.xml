@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://jakarta.apache.org/log4j/log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="LogFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.home}/logs/cfreports/cfreports_log4j.log"/>
+        <param name="Append" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d [%t] %-5p %c - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO"/>
+            <param name="LevelMax" value="ERROR"/>
+        </filter>
+    </appender>
+<!--
+    <appender name="Email" class="org.apache.log4j.net.SMTPAppender">
+        <param name="BufferSize" value="512"/>
+        <param name="SMTPHost" value="[your mail host]"/>
+        <param name="From" value="logs@cfreports.com"/>
+        <param name="To" value="charles.finkel@gmail.com"/>
+        <param name="Subject" value="[SMTPAppender] CF Reports Error from ${cf.hostname}"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="[%d{ISO8601}]%n%n%-5p%n%n%c%n%n%m%n%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="ERROR"/>
+            <param name="LevelMax" value="FATAL"/>
+        </filter>
+    </appender>
+-->
+    <!--                           -->
+    <!-- setup log4j's root logger -->
+    <!--                           -->
+
+    <category name="com.cfinkel" additivity="false">
+        <priority value="DEBUG"/>
+        <appender-ref ref="LogFileAppender"/>
+        <appender-ref ref="Email"/>
+    </category>
+
+
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="LogFileAppender"/>
+    </root>
+
+</log4j:configuration>

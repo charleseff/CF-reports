@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: fgiust
+Build-Jdk: 1.5.0_05
+Extension-Name: displaytag
+Specification-Title: The display tag library is an open source suite o
+ f custom tags that provide high-level web presentation patterns
+     which will work in an MVC model. The library provides a significa
+ nt amount of functionality while still being easy
+     to use.
+Specification-Vendor: the Displaytag team
+Implementation-Vendor: the Displaytag team
+Implementation-Title: displaytag
+Implementation-Version: 1.1
+

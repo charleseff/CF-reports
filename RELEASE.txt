@@ -1,0 +1,12 @@
+Release Notes for Version 0.2
+--------------------------------
+-  Converted to displaytag, http://displaytag.sf.net/11/
+-  In the process, lost a few features, which will have to be restored in coming release:
+  - sorting across whole table
+  - totals
+  - formatting
+  - ?
+
+Release Notes for Version 0.1
+--------------------------------
+-  First release, all of the most important features have been implemented

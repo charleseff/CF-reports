@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="cfreports" default="make-web-app">
+
+    <dirname property="basedir" file="${ant.file}"/>
+    <property name="output.dir" value="${user.home}/output/${ant.project.name}"/>
+    <property name="exploded.dir" value="${output.dir}/exploded"/>
+    <property name="output.test.dir" value="${output.dir}/test"/>
+
+    <path id="main.classpath">
+        <fileset dir="${basedir}/lib/compile">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="testng.classpath" location="${basedir}/lib/compile/testng-5.4-jdk15.jar"/>
+
+    <path id="jibx.classpath">
+        <fileset dir="${basedir}/lib/jibx">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="test.classpath">
+        <pathelement location="${basedir}/lib/compile/junit-4.0.jar"/>
+        <path refid="main.classpath"/>
+        <path refid="jibx.classpath"/>
+        <pathelement location="${output.dir}/cfreports.jar"/>
+        <pathelement location="${output.test.dir}"/>
+    </path>
+
+    <path id="sourcepath">
+        <dirset dir="${basedir}">
+            <include name="src/main/java"/>
+        </dirset>
+    </path>
+    <path id="test.sourcepath">
+        <dirset dir="${basedir}">
+            <include name="src/test/java"/>
+        </dirset>
+    </path>
+
+    <patternset id="compiler.resources">
+        <include name="**/?*.properties"/>
+        <include name="**/?*.xml"/>
+        <include name="**/?*.gif"/>
+        <include name="**/?*.png"/>
+        <include name="**/?*.jpeg"/>
+        <include name="**/?*.jpg"/>
+        <include name="**/?*.html"/>
+        <include name="**/?*.dtd"/>
+        <include name="**/?*.tld"/>
+    </patternset>
+
+    <target name="check-properties">
+        <fail unless="deploy.target" message="Property deploy.target must be set">
+        </fail>
+    </target>
+
+    <target name="base-compile">
+        <mkdir dir="${exploded.dir}/WEB-INF/classes"/>
+        <javac destdir="${exploded.dir}/WEB-INF/classes" target="1.5" source="1.5" optimize="on" classpathref="main.classpath"
+               debug="true" debuglevel="lines,vars,source">
+            <src refid="sourcepath"/>
+        </javac>
+        <copy todir="${exploded.dir}/WEB-INF/classes">
+            <!--
+            <fileset dir="${basedir}/src/generated">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+            -->
+            <fileset dir="${basedir}/src/main/java">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="compile" description="Build initialization" depends="base-compile">
+        <taskdef name="bind" classname="org.jibx.binding.ant.CompileTask">
+            <classpath refid="jibx.classpath">
+            </classpath>
+        </taskdef>
+        <bind verbose="false" load="true">
+            <classpathset dir="${exploded.dir}/WEB-INF/classes"/>
+            <bindingfileset dir="${basedir}/jibxBindings">
+                <include name="*.xml"/>
+            </bindingfileset>
+        </bind>
+
+        <jar destfile="${output.dir}/cfreports.jar" basedir="${exploded.dir}/WEB-INF/classes"></jar>
+    </target>
+
+    <target name="all" depends="clean, make-web-app" description="build all"/>
+    <target name="clean" description="cleanup all">
+        <delete dir="${output.dir}"/>
+    </target>
+
+    <target name="make-web-app" depends="compile">
+        <copy todir="${exploded.dir}">
+            <fileset dir="${basedir}/web">
+                <exclude name="META-INF/*"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${exploded.dir}/META-INF"/>
+        <copy tofile="${exploded.dir}/META-INF/context.xml" file="${basedir}/web/META-INF/context_${deploy.target}.xml"/>
+        <copy todir="${exploded.dir}/WEB-INF/lib">
+            <fileset dir="${basedir}/lib/compile"/>
+            <fileset dir="${basedir}/lib/jibx"/>
+            <fileset dir="${basedir}/lib/runtime"/>
+        </copy>
+
+        <war destfile="${output.dir}/cfreports.war" webxml="${basedir}/web/WEB-INF/web.xml" >
+            <fileset dir="${exploded.dir}"  />
+        </war>
+    </target>
+
+
+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+        <classpath>
+            <fileset dir="${basedir}/lib/ant" includes="*.jar"/>
+            <fileset dir="${basedir}/lib/ant">
+                <include name="*.jar"/>
+            </fileset>
+        </classpath>
+    </taskdef>
+
+
+    <!--classpath="${basedir}/lib/ant/jaxb-xjc.jar"-->
+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+        <classpath>
+            <fileset dir="${basedir}/lib/ant">
+                <include name="*.jar"/>
+            </fileset>
+        </classpath>
+    </taskdef>
+
+    <target name="generate-files-from-schema">
+        <mkdir dir="${basedir}/src/generated"/>
+        <xjc schema="${basedir}/report.xsd" package="com.cfinkel.reports.generatedbeans"
+             destdir="${basedir}/src/generated">
+            <produces dir="${basedir}/src/generated/com/cfinkel/reports/generatedbeans" includes="**/*.java"/>
+        </xjc>
+    </target>
+
+    <target name="compile-unit" depends="compile">
+        <mkdir dir="${output.test.dir}"/>
+        <javac destdir="${output.test.dir}" source="1.5" optimize="on"
+               debug="true" debuglevel="lines,vars,source">
+            <classpath refid="test.classpath"/>
+            <src refid="test.sourcepath"/>
+        </javac>
+    </target>
+
+    <target name="unit" depends="compile-unit" description="- runs unit tests">
+        <!--
+        <junit fork="true" forkmode="once" printsummary="true" errorProperty="test.failed"
+               failureProperty="test.failed">
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml"/>
+            <batchtest todir="${build.test.dir}">
+                <fileset dir="${build.test.dir}">
+                    <include name="**/*.class"/>
+                </fileset>
+            </batchtest>
+            <classpath refid="test.classpath"/>
+        </junit>
+        <fail if="test.failed" message="Tests failed! Check test reports."/>
+
+-->
+        <taskdef resource="testngtasks"
+                 classpathref="testng.classpath"/>
+        <testng classpathref="test.classpath"
+                haltOnFailure="true" verbose="2">
+            <classfileset dir="${output.test.dir}" includes="**/*.class" />
+        </testng>
+
+    </target>
+
+</project>

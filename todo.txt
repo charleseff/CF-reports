@@ -1,0 +1,65 @@
+new:
+------------
+-  Jibx or other to map beans (no more gen'd beans !)
+-  web services? (think about it)
+
+
+
+
+features:
+-------------
+-  use new SMTPAppender for log4j
+-  fix dates for valuelist
+-  make objects serializable (DependentInputWithStaticValues)
+-  get valuelist to work for prepared queries
+-  allow multiple datasets for xy chart, custom x, y labels, no legend
+-  input validation
+-  fix build file - make it use default lib dir
+-  give description of reloading classes and report updating
+-  multiple select box for dependent inputs... (pain in the ass)
+-  complete admin pages
+-  store record of who viewed report - most probably use database table - "access logs"
+-  pivot tables
+-  show stats - how long it took to run query, input params - ?
+-  scheduled reports for longer loading reports, allow for email option as well
+-  graphs - pie chart; (multi-bar chart -> just have multiple data sets) - make more robust/add options
+-  convert to el expressions, jspx
+-  checkbox - allow them to be grouped together
+-  add ability to enter text, (or maybe custom html?) into the report
+-  use jar for my classes instead of .class files
+-  allow view of html file
+-  progress meter
+-  dependent inputs with vertical positioning might break
+
+low prio:
+--------
+-  look into unifying front-end layer (UI) of two display frameworks into a single implementation
+-  make submit button optional in the report
+-  list box - manually select size, allow/disallow multiple selections
+-  validation constraints on inputs - (date range, regex), javascript pop-up
+-  use dependencies w/ packages: http://blogs.jetbrains.com/idea/
+-  should i use all https?
+
+bugs:
+----
+-  FIND OUT WHY QA DROPS JNDI DATASOURCE, REQUIRE RESTART OF TOMCAT
+-  fix 'Back' functionality (broken somewhere along the way)
+-  fix colors
+-  showtimes not working for calendar - still showing times in pop-up
+
+nice to haves:
+----------
+-  backlink
+-  JUnit,HTTPUnit testing
+-  convert to jspx
+
+not sure whether to implement:
+----------
+-  XSL transformations for improved speed - ?
+
+future:
+-------
+-  build a user interface for easily creating report files - (IntelliJ pretty much give that to you)
+-  support for different types of databases
+-  create public API for plugging into other view technologies (JasperReports, for example)
+-  allow for inserts or updates of data - (ie CS Ticket tool)
