@@ -13,7 +13,7 @@
         <entry path="file://$APPLICATION_HOME_DIR$/bin/C:/java/libraries/junit4.0/junit-4.0.jar" />
       </additionalClassPath>
       <antReference projectDefault="true" />
-      <customJdkName value="1.5" />
+      <customJdkName value="" />
       <maximumHeapSize value="128" />
       <properties>
         <property name="deploy.target" value="varsityflicks" />
@@ -274,9 +274,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cfreports.iml" filepath="$PROJECT_DIR$/cfreports.iml" />
+      <module fileurl="file://$PROJECT_DIR$/displaytag-mod/displaytag-mod.iml" filepath="$PROJECT_DIR$/displaytag-mod/displaytag-mod.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" />
+  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA 6180" project-jdk-type="IDEA JDK">
+    <output url="file://$PROJECT_DIR$/intellij_output" />
+  </component>
   <component name="ProjectRunConfigurationManager" />
   <component name="RAILS_PROJECT_VIEW_PANE" />
   <component name="RUBY_DOC_SETTINGS">
@@ -374,6 +377,15 @@
     <library name="mysql-connector-java-3.1.14-bin">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/lib/runtime/mysql-connector-java-3.1.14-bin.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="jaxb">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/jaxb/jaxb-api.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxb/jaxb-impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxb/jaxb1-impl.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
