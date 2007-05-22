@@ -34,7 +34,7 @@
     <path id="sourcepath">
         <dirset dir="${basedir}">
             <include name="src/main/java"/>
-            <include name="generated"/>
+            <include name="src/main/java-generated"/>
         </dirset>
     </path>
     <path id="test.sourcepath">
@@ -67,12 +67,6 @@
             <src refid="sourcepath"/>
         </javac>
         <copy todir="${exploded.dir}/WEB-INF/classes">
-            <!--
-            <fileset dir="${basedir}/src/generated">
-                <patternset refid="compiler.resources"/>
-                <type type="file"/>
-            </fileset>
-            -->
             <fileset dir="${basedir}/src/main/java">
                 <patternset refid="compiler.resources"/>
                 <type type="file"/>
@@ -101,7 +95,7 @@
 
     <target name="clean" description="cleanup all">
         <delete dir="${output.dir}"/>
-        <delete dir="generated"/>
+        <delete dir="src/main/java-generated"/>
     </target>
 
     <target name="make-web-app" depends="compile">
@@ -131,10 +125,10 @@
     </taskdef>
 
     <target name="generate-jaxb-beans">
-        <mkdir dir="${basedir}/generated"/>
+        <mkdir dir="${basedir}/src/main/java-generated"/>
         <xjc schema="${basedir}/report.xsd" package="com.cfinkel.reports.generatedbeans"
-             destdir="${basedir}/generated">
-            <produces dir="${basedir}/generated/com/cfinkel/reports/generatedbeans" includes="**/*.java"/>
+             destdir="${basedir}/src/main/java-generated">
+            <produces dir="${basedir}/src/main/java-generated/com/cfinkel/reports/generatedbeans" includes="**/*.java"/>
         </xjc>
     </target>
 <!--
