@@ -2,7 +2,7 @@
 <project name="cfreports" default="make-web-app">
 
     <dirname property="basedir" file="${ant.file}"/>
-    <property name="output.dir" value="${user.home}/output/${ant.project.name}"/>
+    <property name="output.dir" value="build"/>
     <property name="exploded.dir" value="${output.dir}/exploded"/>
     <property name="output.test.dir" value="${output.dir}/test"/>
 
@@ -56,13 +56,13 @@
     </patternset>
 
     <target name="check-properties">
-        <fail unless="deploy.target" message="Property deploy.target must be set">
+        <fail unless="deploy.target" message="Property deploy.target must be set.  You can use 'demo'.">
         </fail>
     </target>
 
     <target name="base-compile" depends="generate-jaxb-beans">
         <mkdir dir="${exploded.dir}/WEB-INF/classes"/>
-        <javac destdir="${exploded.dir}/WEB-INF/classes" target="1.5" source="1.5" optimize="on" classpathref="main.classpath"
+        <javac destdir="${exploded.dir}/WEB-INF/classes" target="1.6" source="1.6" optimize="on" classpathref="main.classpath"
                debug="true" debuglevel="lines,vars,source">
             <src refid="sourcepath"/>
         </javac>
@@ -98,7 +98,7 @@
         <delete dir="src/main/java-generated"/>
     </target>
 
-    <target name="make-web-app" depends="compile">
+    <target name="make-web-app" depends="check-properties,compile">
         <copy todir="${exploded.dir}">
             <fileset dir="${basedir}/web">
                 <exclude name="META-INF/*"/>
