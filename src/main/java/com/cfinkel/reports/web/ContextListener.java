@@ -50,7 +50,7 @@ public class ContextListener implements ServletContextListener {
     */
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        String hostname = setAndReturnHostName();
+        setHostNameProperty();
 
         try {
             AppData.jaxBContext = JAXBContext.newInstance("com.cfinkel.reports.generatedbeans");
@@ -59,8 +59,11 @@ public class ContextListener implements ServletContextListener {
         } catch (JAXBException e) {
             log.error("Error initializing JAXB Context", e);
             throw new RuntimeException(e);
+        } catch (LinkageError e) {
+            log.error("linkage error",e);
+            throw new RuntimeException(e);
         }
-
+        
         AppData.setDataSources(new HashMap<String, DataSource>());
 
 
@@ -153,13 +156,18 @@ public class ContextListener implements ServletContextListener {
 
     }
 
-    private String setAndReturnHostName() {
+    /**
+     * sets the host name to the "cf.hostname" system property (to be used for email logging, among possibly others)
+     * @return
+     */
+    private String setHostNameProperty() {
         String hostname;
         try {
             hostname = java.net.InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
-            log.error("unknown host exception", e);
-            throw new RuntimeException(e);
+            String unknownHostString = "Unknown Host";
+            //        log.info("unknown host exception.  using '" + unknownHostString +"' as host name", e);
+            hostname = unknownHostString;
         }
 
         System.setProperty("cf.hostname", hostname);
