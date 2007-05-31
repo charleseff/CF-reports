@@ -145,9 +145,9 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="LogConsolePreferences">
-    <option name="FILTER_ERRORS" value="true" />
-    <option name="FILTER_WARNINGS" value="true" />
-    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="false" />
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="Palette2">
@@ -274,10 +274,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cfreports.iml" filepath="$PROJECT_DIR$/cfreports.iml" />
-      <module fileurl="file://$PROJECT_DIR$/displaytag-mod/displaytag-mod.iml" filepath="$PROJECT_DIR$/displaytag-mod/displaytag-mod.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA 6180" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/intellij_output" />
   </component>
   <component name="ProjectRunConfigurationManager" />
@@ -386,6 +385,7 @@
         <root url="jar://$PROJECT_DIR$/lib/jaxb/jaxb-api.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/jaxb/jaxb-impl.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/jaxb/jaxb1-impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxb/jaxb-xjc.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />

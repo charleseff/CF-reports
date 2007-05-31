@@ -2,7 +2,7 @@
 <project name="cfreports" default="make-web-app">
 
     <dirname property="basedir" file="${ant.file}"/>
-    <property name="output.dir" value="build"/>
+    <property name="output.dir" value="output"/>
     <property name="exploded.dir" value="${output.dir}/exploded"/>
     <property name="output.test.dir" value="${output.dir}/test"/>
 
@@ -120,12 +120,12 @@
 
     <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
         <classpath>
-            <fileset dir="${basedir}/lib/jaxb" includes="*.jar"/>
+            <fileset dir="${basedir}/lib/jaxb" includes="jaxb-xjc.jar"/>
         </classpath>
     </taskdef>
 
     <target name="generate-jaxb-beans">
-        <mkdir dir="${basedir}/src/main/java-generated"/>
+        <mkdir dir="${basedir}/src/main/java-generated" />
         <xjc schema="${basedir}/report.xsd" package="com.cfinkel.reports.generatedbeans"
              destdir="${basedir}/src/main/java-generated">
             <produces dir="${basedir}/src/main/java-generated/com/cfinkel/reports/generatedbeans" includes="**/*.java"/>
