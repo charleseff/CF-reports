@@ -31,8 +31,8 @@
     </li>
     --%>
     <li> <a href="<%=request.getContextPath()%>/admin/reloadClassesAndUpdateReports.do">Reload Classes, updating existing reports</a></li>
-        <li> <a href="<%=request.getContextPath()%>/admin/clearUserData.do">Clear User Data</a>
-            Clears query results data from any logged in users</li>
+    <li> <a href="<%=request.getContextPath()%>/admin/clearUserData.do">Clear User Data</a>
+        Clears query results data from any logged in users</li>
 </ul>
 </body>
 </html>

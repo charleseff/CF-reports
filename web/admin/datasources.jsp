@@ -22,7 +22,7 @@
 <ul>
     <%
         for (String dataSourceName : AppData.getDataSources().keySet()) {
-            %>
+    %>
     <li><%=dataSourceName%></li>
     <%
         }
