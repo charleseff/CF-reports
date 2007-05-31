@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.cfinkel.com/report"
+        title="Simple Input Report" description="This is the a simple input report."
+        author="Charles" revision="$Revision: 6790 $">
+    <access><role>anonymous</role></access>
+
+    <!--
+        <input name="office" description="Sales Office" datatype="integer"
+               control="listbox" >
+            <query name="q1" datasource="epana">
+                <sql>select sales_office_id, sales_office_name from eprsa.sales_office</sql>
+            </query>
+
+        </input>
+    -->
+    <output name="output1">
+        <query name="q2" datasource="demo">
+
+            <sql> <![CDATA[SELECT * FROM sample_table WHERE num_col < 250]]></sql>
+        </query>
+    </output>
+</report>
