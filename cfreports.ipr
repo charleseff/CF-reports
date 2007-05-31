@@ -274,6 +274,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cfreports.iml" filepath="$PROJECT_DIR$/cfreports.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample_hsqldb_creator/sample_hsqldb_creator.iml" filepath="$PROJECT_DIR$/sample_hsqldb_creator/sample_hsqldb_creator.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">

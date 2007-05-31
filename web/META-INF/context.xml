@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context override="true" path="/cfreports" reloadable="true">
-    <Logger className="org.apache.catalina.logger.FileLogger" directory="${catalina.home}/logs/cfreports" prefix="cfreports_tomcat." suffix=".log" timestamp="true"/>
-    <ResourceLink global="jdbc/db1" name="jdbc/db1" type="javax.sql.DataSource"/>
-    <ResourceLink global="jdbc/db2" name="jdbc/db2" type="javax.sql.DataSource"/>
-
-    <Resource name="jdbc/VarsityFlicks" auth="Container" type="javax.sql.DataSource"
+    <Logger className="org.apache.catalina.logger.FileLogger" directory="" prefix="cfreports_tomcat." suffix=".log" timestamp="true"/>
+    <Resource name="jdbc/demo" auth="Container" type="javax.sql.DataSource"
               maxActive="100" maxIdle="30" maxWait="10000"
-              username="charles" password="lovesmlb" driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://www.varsityflicks.com:3306/db_vflicks?autoReconnect=true"/>
+              username="sa" password="" driverClassName="org.hsqldb.jdbcDriver"
+              url="jdbc:hsqldb:file:/home/charles/projects/cf-reports/db_file"/>
+
+
     <!--
-<Realm className="com.cfinkel.security.ldap.RecursiveJNDIRealm"
-   debug="99"
-   connectionName="cn=test"
-   connectionPassword="Today@123"
-   connectionURL="ldap://your.ldapserver.com"
-   userBase="dc=test,dc=com"
-   roleBase="dc=test,dc=com"
-   roleName="distinguishedName"
-   roleSearch="(member={0})"
-   roleSubtree="true"
-   userSubtree="true"
-   userSearch="(sAMAccountName={0})"
-    />
+            Class.forName("org.hsqldb.jdbcDriver" );
+
+    jdbc:hsqldb:file:db_file", "sa", ""
     -->
 </Context>

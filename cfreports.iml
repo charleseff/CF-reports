@@ -55,8 +55,8 @@
       <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
     <containerElement type="library" name="testng-5.4" level="application">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
     </containerElement>
     <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" optional="false" version="2.3" />
     <webroots>
