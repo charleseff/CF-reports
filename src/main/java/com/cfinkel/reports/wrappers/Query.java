@@ -4,12 +4,13 @@ import com.cfinkel.reports.exceptions.BadReportSyntaxException;
 import com.cfinkel.reports.generatedbeans.OutputElement;
 import com.cfinkel.reports.generatedbeans.QueryElement;
 import com.cfinkel.reports.web.AppData;
+import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.apache.log4j.Logger;
 
-import javax.sql.DataSource;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,10 @@ public abstract class Query {
                 String errorMessage = "Couldn't find JNDI value for datasource: " + datasourceName + ".  Didn't add datasource.";
                 log.info(errorMessage,e);
                 throw new BadReportSyntaxException(errorMessage);
+            } catch (SQLException e) {
+                String errorMessage = "SQL Exception - error";
+                log.error(errorMessage,e);
+                throw new RuntimeException(errorMessage,e);
             }
         }
         jdbcTemplate = new JdbcTemplate(dataSource);

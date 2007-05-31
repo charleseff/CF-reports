@@ -163,7 +163,7 @@ public class ContextListener implements ServletContextListener {
     private String setHostNameProperty() {
         String hostname;
         try {
-            hostname = java.net.InetAddress.getLocalHost().getHostName();
+                hostname = java.net.InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
             String unknownHostString = "Unknown Host";
             //        log.info("unknown host exception.  using '" + unknownHostString +"' as host name", e);

@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Pattern;
@@ -116,15 +117,17 @@ public class AppData {
         return dataSources;
     }
 
-    public static DataSource addAndReturnDataSource(String datasource) throws NamingException {
+    public static DataSource addAndReturnDataSource(String datasource) throws NamingException, SQLException {
 
         String jndiPrefix = "java:comp/env/jdbc/" + datasource;
 
         DataSource ds = (DataSource) initContext.lookup(jndiPrefix);
 
-        // runReport dummy query:
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-        jdbcTemplate.execute("select null from dual");
+        // runReport dummy query if not HSQL (probably should do if not other DB's as well)
+        if (!ds.getConnection().getMetaData().getDriverName().equals("HSQL Database Engine Driver")) {
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+            jdbcTemplate.execute("select null from dual");
+        }
 
         dataSources.put(datasource, ds);
         log.info("Added Datasource " + datasource);
