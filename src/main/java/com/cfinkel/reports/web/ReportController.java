@@ -7,6 +7,7 @@ import com.cfinkel.reports.generatedbeans.ReportElement;
 import com.cfinkel.reports.util.Util;
 import com.cfinkel.reports.wrappers.Report;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 /**
  * $Author:charles $
@@ -126,6 +127,12 @@ public class ReportController implements Filter {
                 } catch (ParseException e) {
                     log.info("parse exception",e); // should not happen
                     throw new ServletException(e);
+                } catch (DataAccessException e) {
+                    log.info("DataAccessException", e);
+                    RequestDispatcher rd = request.getRequestDispatcher("/exception.jsp");
+                    request.setAttribute("exception", e);
+                    rd.include(request, response);
+                    return;
                 }
 
                 // include jsp:
