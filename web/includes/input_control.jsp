@@ -1,10 +1,11 @@
+<%@ page import="com.cfinkel.reports.ajax.methods.InputChangeHandler"%>
 <%@ page import="com.cfinkel.reports.generatedbeans.Control"%>
 <%@ page import="com.cfinkel.reports.generatedbeans.ControlElement"%>
 <%@ page import="com.cfinkel.reports.util.Util"%>
 <%@ page import="com.cfinkel.reports.web.AttributeNames"%>
+<%@ page import="com.cfinkel.reports.web.ParameterNames"%>
 <%@ page import="com.cfinkel.reports.wrappers.Input"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="com.cfinkel.reports.ajax.methods.InputChangeHandler"%>
+<%@ page import="java.util.Map" %>
 <%@ page errorPage="/error.jsp" %>
 <jsp:useBean id="input" scope="request"
              type="com.cfinkel.reports.wrappers.Input"/>
@@ -166,7 +167,7 @@
 
     case TEXTAREA:
 %>
-<textarea cols="20" rows="5" id="${input.name}" name="${input.name}" value="<%=selectedValues[0]%>" />
+<textarea cols="20" rows="5" id="${input.name}" name="${input.name}" value="<%=selectedValues[0]%>" ></textarea>
 <%
         break;
 
