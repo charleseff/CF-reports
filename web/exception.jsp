@@ -23,8 +23,27 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <head><title>Exception was thrown</title></head>
 <body>
 <p>
+    <%
+        if (exception != null) {
+    %>
     Exception thrown: <br>
-    <%=exception.getMessage()%>
+    <%=exception.getMessage()%><br>
+      <pre>
+
+    <%
+
+            if (exception.getMessage() != null)
+                out.print(exception.getMessage() + "<br/>");
+            else if (exception.toString() != null)
+                out.print(exception.toString() + "<br/>");
+            StackTraceElement[] elements = exception.getStackTrace();
+            for (StackTraceElement element : elements) {
+                out.print(element.toString() + "<br/>");
+            }
+
+        }
+    %>
+    </pre>
 </p>
 <jsp:include flush="true" page="includes/logout.jsp" ></jsp:include>
 </body>
