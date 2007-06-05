@@ -4,7 +4,7 @@
     <Resource name="jdbc/demo" auth="Container" type="javax.sql.DataSource"
               maxActive="100" maxIdle="30" maxWait="10000"
               username="sa" password="" driverClassName="org.hsqldb.jdbcDriver"
-              url="jdbc:hsqldb:file:/home/charles/projects/cf-reports/db_file"/>
+              url="jdbc:hsqldb:file:/home/charles/Servers/reports/hsqldb/db_file"/>
 
 
     <!--
