@@ -6,10 +6,4 @@
               username="sa" password="" driverClassName="org.hsqldb.jdbcDriver"
               url="jdbc:hsqldb:file:/home/charles/Servers/reports/hsqldb/db_file"/>
 
-
-    <!--
-            Class.forName("org.hsqldb.jdbcDriver" );
-
-    jdbc:hsqldb:file:db_file", "sa", ""
-    -->
 </Context>
