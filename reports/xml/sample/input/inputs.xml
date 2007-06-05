@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.cfinkel.com/report"
-        title="Example Report" description="This is the first example report."
+        title="Input Sample Report" description="Just a sample report to show the different types of inputs possible."
         author="Charles" revision="$Revision: 6790 $">
     <access><role>anonymous</role></access>
 
     <input name="i1" description="stuff" datatype="string" control="checkbox"></input>
     <input name="i5" description="stuff" datatype="string" control="dropdown"
-            values="(1,hello),(2,yo)"></input>
+           values="(1,hello),(2,yo)"></input>
     <input name="i6" description="stuff" datatype="string" control="listbox" default="2"
-            values="(1,hello),(2,yo)"></input>
+           values="(1,hello),(2,yo)"></input>
     <input name="i2" description="stuff" datatype="string" control="textarea"></input>
     <input name="i8" description="stuff" datatype="string" control="radio"
            values="(1,hello),(2,yo)"  ></input>

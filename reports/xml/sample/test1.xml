@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.cfinkel.com/report"
-        title="Simple Input Report" description="This is the a simple input report."
+        title="Basic Report" description="This is the a simple basic report."
         author="Charles" revision="$Revision: 6790 $">
     <access><role>anonymous</role></access>
 
