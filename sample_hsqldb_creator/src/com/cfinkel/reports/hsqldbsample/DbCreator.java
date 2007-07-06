@@ -9,6 +9,7 @@ package com.cfinkel.reports.hsqldbsample;
  */
 
 import java.sql.*;
+import java.io.File;
 
 /**
  * Title:        Testdb
@@ -79,19 +80,14 @@ public class DbCreator {
 
     //use for SQL commands CREATE, DROP, INSERT and UPDATE
     public synchronized void update(String expression) throws SQLException {
-
         Statement st = null;
-
         st = conn.createStatement();    // statements
-
         int i = st.executeUpdate(expression);    // run the query
-
         if (i == -1) {
             System.out.println("db error : " + expression);
         }
-
         st.close();
-    }    // void update()
+    }
 
     public static void dump(ResultSet rs) throws SQLException {
 
@@ -123,6 +119,10 @@ public class DbCreator {
 
         DbCreator db = null;
 
+        deleteFile("sample_hsqldb_creator/sample_hsqldb/db_file.script");
+        deleteFile("sample_hsqldb_creator/sample_hsqldb/db_file.log");
+        deleteFile("sample_hsqldb_creator/sample_hsqldb/db_file.properties");
+
         try {
             db = new DbCreator("sample_hsqldb_creator/sample_hsqldb/db_file");
         } catch (Exception ex1) {
@@ -139,14 +139,12 @@ public class DbCreator {
             // generate unique values for new rows- useful for row keys
             db.update(
                     "CREATE TABLE sample_table ( id INTEGER IDENTITY, str_col VARCHAR(256), num_col INTEGER)");
+            db.update(
+                    "CREATE TABLE sales_offices ( id INTEGER IDENTITY, name VARCHAR(256))");
+            db.update(
+                    "CREATE TABLE sales_people ( id INTEGER IDENTITY, last_name VARCHAR(256), first_name VARCHAR(256), sales_office_id INTEGER)");
         } catch (SQLException ex2) {
-
-            //ignore
-            //ex2.printStackTrace();  // second time we run program
-            //  should throw execption since table
-            // already there
-            //
-            // this will have no effect on the db
+            System.out.println(ex2);
         }
 
         try {
@@ -162,6 +160,14 @@ public class DbCreator {
             db.update(
                     "INSERT INTO sample_table(str_col,num_col) VALUES('GM', 400)");
 
+            db.update("insert into sales_offices(name) values ('Memphis')");
+            db.update("insert into sales_offices(name) values ('Oklahoma')");
+            db.update("insert into sales_offices(name) values ('New York')");
+            db.update("insert into sales_people(first_name,last_name,sales_office_id) values ('Bob','Smith',2)");
+            db.update("insert into sales_people(first_name,last_name,sales_office_id) values ('Kate','Wesley',0)");
+            db.update("insert into sales_people(first_name,last_name,sales_office_id) values ('Mike','Flor',0)");
+            db.update("insert into sales_people(first_name,last_name,sales_office_id) values ('Sam','Ran',1)");
+
             // do a query
             db.query("SELECT * FROM sample_table WHERE num_col < 250");
 
@@ -173,4 +179,11 @@ public class DbCreator {
             ex3.printStackTrace();
         }
     }    // main()
+
+    private static void deleteFile(String fileName) {
+        File file = new File(fileName);
+        if (!file.isFile()) return;
+        boolean wasDeleted =   file.delete();
+        if (!wasDeleted) throw new RuntimeException("File '" + fileName + "' wasn't actually deleted");
+    }
 }    // class Testdb

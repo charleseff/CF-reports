@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.cfinkel.com/report"
+        title="Dependent Inputs Report" description="This is a report that shows of the ability to have dependent inputs."
+        author="Charles" revision="$Revision: 6790 $">
+    <access><role>anonymous</role></access>
+
+    <input name="office" description="Sales Office" datatype="integer"
+           control="listbox" >
+        <dependent-input name="owner">
+            <when parent-value="*" description="Sales Person" datatype="integer" control="listbox" >
+                <query datasource="demo" name="q1">
+                    <input-ref>office</input-ref>
+                   <sql> <![CDATA[SELECT id, last_name || ', ' || first_name
+                    FROM sales_people
+                    where sales_office_id = ?]]>
+                    </sql>
+                </query>
+            </when>
+        </dependent-input>
+        <query name="q1" datasource="demo">
+            <sql>select id, name from sales_offices</sql>
+        </query>
+
+    </input>
+   <output  name="output1">
+       <query name="q2" datasource="demo">
+           <input-ref>owner</input-ref>
+           <sql><![CDATA[select * from sales_people where id = ?]]></sql>
+       </query>
+    </output>
+</report>
