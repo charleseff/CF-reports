@@ -137,12 +137,10 @@ public class DbCreator {
             //
             // by declaring the id column IDENTITY, the db will automatically
             // generate unique values for new rows- useful for row keys
-            db.update(
-                    "CREATE TABLE sample_table ( id INTEGER IDENTITY, str_col VARCHAR(256), num_col INTEGER)");
-            db.update(
-                    "CREATE TABLE sales_offices ( id INTEGER IDENTITY, name VARCHAR(256))");
-            db.update(
-                    "CREATE TABLE sales_people ( id INTEGER IDENTITY, last_name VARCHAR(256), first_name VARCHAR(256), sales_office_id INTEGER)");
+            db.update("CREATE TABLE sample_table ( id INTEGER IDENTITY, str_col VARCHAR(256), num_col INTEGER)");
+            db.update("CREATE TABLE sales_offices ( id INTEGER IDENTITY, name VARCHAR(256))");
+            db.update("CREATE TABLE sales_people ( id INTEGER IDENTITY, last_name VARCHAR(256), first_name VARCHAR(256), sales_office_id INTEGER)");
+            db.update("CREATE TABLE printers ( id INTEGER IDENTITY, name VARCHAR(256), color BOOLEAN )");
         } catch (SQLException ex2) {
             System.out.println(ex2);
         }
@@ -167,6 +165,8 @@ public class DbCreator {
             db.update("insert into sales_people(first_name,last_name,sales_office_id) values ('Kate','Wesley',0)");
             db.update("insert into sales_people(first_name,last_name,sales_office_id) values ('Mike','Flor',0)");
             db.update("insert into sales_people(first_name,last_name,sales_office_id) values ('Sam','Ran',1)");
+            db.update("insert into printers(name,color) values ('Big Printer',true)");
+            db.update("insert into printers(name,color) values ('Little Printer',false)");
 
             // do a query
             db.query("SELECT * FROM sample_table WHERE num_col < 250");

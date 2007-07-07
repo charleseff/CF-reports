@@ -22,7 +22,7 @@
         </query>
 
     </input>
-   <output  name="output1">
+   <output  name="person details">
        <query name="q2" datasource="demo">
            <input-ref>owner</input-ref>
            <sql><![CDATA[select * from sales_people where id = ?]]></sql>

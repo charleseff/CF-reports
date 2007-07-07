@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.cfinkel.com/report"
+        title="Example Report" description="This is the first example report."
+        author="Charles" revision="$Revision: 6790 $">
+
+    <access><role>anonymous</role></access>
+
+
+    <input name="owner_type" description="Owner Type" datatype="integer"
+           control="radio" values="(1,Printers),(2,Offices)" >
+        <dependent-input name="owner">
+            <when parent-value="1" description="Printer" datatype="integer" control="dropdown" >
+                <query datasource="demo" name="q1">
+                    <sql> <![CDATA[SELECT id, name FROM printers]]>
+                    </sql>
+                </query>
+            </when>
+            <when parent-value="2" description="Office" datatype="integer" control="dropdown">
+                <query datasource="demo" name="q2">
+                    <sql>
+                        <![CDATA[SELECT id, name FROM sales_offices]]>
+                    </sql>
+                </query>
+            </when>
+        </dependent-input>
+    </input>
+    <output  name="output1">
+        <generated-query class="com.cfinkel.reports.ExampleQueryGenerator" datasource="demo" name="q4"/>
+    </output>
+</report>

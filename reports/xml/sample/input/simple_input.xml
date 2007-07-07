@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.cfinkel.com/report"
+        title="Simple Input Report" description="This is the a simple input report."
+        author="Charles" revision="$Revision: 6790 $">
+    <access><role>anonymous</role></access>
+
+
+    <input name="office" description="Sales Office" datatype="integer"
+           control="listbox" >
+        <query name="q1" datasource="demo">
+            <sql>select id, name from sales_offices</sql>
+        </query>
+
+    </input>
+   <output  name="output">
+        <query name="q2" datasource="demo">
+            <input-ref>office</input-ref>
+            <sql>select * from sales_offices where id = ?</sql>
+        </query>
+    </output>
+</report>
